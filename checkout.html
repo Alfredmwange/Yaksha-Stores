@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Checkout</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <h2>Checkout</h2>
+  <a href="index.html">←Back to Shop</a>
+</header>
+
+<div class="checkout">
+
+  <h3>Payment Details</h3>
+
+  <select>
+    <option>Visa</option>
+    <option>MasterCard</option>
+    <option>PayPal</option>
+  </select>
+
+  <input type="text" placeholder="Card Holder Name">
+  <input type="text" placeholder="Card Number">
+  <input type="text" placeholder="Expiry Date">
+  <input type="text" placeholder="CVV">
+
+  <button onclick="placeOrder()">Pay Now</button>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
