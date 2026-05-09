@@ -88,6 +88,50 @@ function displayProducts(list) {
   });
 }
 
+function displayProducts(list) {
+
+    const container = document.getElementById("product-list");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    list.forEach(p => {
+
+        container.innerHTML += `
+
+        <div class="product">
+
+            <span class="badge">Hot</span>
+
+            <a href="product.html?id=${p.id}">
+                <img src="${p.image}">
+            </a>
+
+            <div class="product-content">
+
+                <h3>${p.name}</h3>
+
+                <p>${p.brand}</p>
+
+                <div class="rating">
+                    ⭐ ${p.rating} (${p.reviews})
+                </div>
+
+                <p class="price">$${p.price}</p>
+
+                <button onclick="addToCart(${p.id})">
+                    Add to Cart
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+}
+
 /* SEARCH */
 function searchProducts() {
   const value = document.getElementById("search").value.toLowerCase();
@@ -149,46 +193,135 @@ if (document.getElementById("product-details")) {
   `;
 }
 
-/* CART PAGE */
-if (document.getElementById("cart-items")) {
-  let cart = getCart();
-  let total = 0;
-  const container = document.getElementById("cart-items");
+//   CART SYSTEM
 
-  cart.forEach((item, i) => {
-    total += item.price * item.qty;
+// GET CART
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    container.innerHTML += `
-      <div class="product">
-        <h3>${item.name}</h3>
-        <p>$${item.price}</p>
-
-        <button onclick="updateQty(${i}, -1)">-</button>
-        ${item.qty}
-        <button onclick="updateQty(${i}, 1)">+</button>
-
-        <button onclick="removeItem(${i})">Remove</button>
-      </div>
-    `;
-  });
-
-  document.getElementById("total").innerText = "Total: $" + total;
+// SAVE CART
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-function updateQty(i, change) {
-  let cart = getCart();
-  cart[i].qty += change;
-  if (cart[i].qty < 1) cart[i].qty = 1;
-  localStorage.setItem("cart", JSON.stringify(cart));
-  location.reload();
+// ADD TO CART
+function addToCart(id) {
+
+    const product = products.find(p => p.id === id);
+
+    const existing = cart.find(item => item.id === id);
+
+    if (existing) {
+        existing.qty += 1;
+    } else {
+        cart.push({
+            ...product,
+            qty: 1
+        });
+    }
+
+    saveCart();
+
+    alert(product.name + " added to cart");
 }
 
-function removeItem(i) {
-  let cart = getCart();
-  cart.splice(i, 1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  location.reload();
+// DISPLAY CART
+function displayCart() {
+
+    const container = document.getElementById("cart-items");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    let total = 0;
+
+    cart.forEach((item, i) => {
+
+        total += item.price * item.qty;
+
+        container.innerHTML += `
+
+        <div class="cart-item">
+
+            <div class="cart-info">
+
+                <img src="${item.image}">
+
+                <div class="cart-details">
+                    <h3>${item.name}</h3>
+                    <p>$${item.price}</p>
+                </div>
+
+            </div>
+
+            <div class="cart-controls">
+
+                <button class="qty-btn" onclick="updateQty(${i}, -1)">
+                    -
+                </button>
+
+                <span class="qty">${item.qty}</span>
+
+                <button class="qty-btn" onclick="updateQty(${i}, 1)">
+                    +
+                </button>
+
+                <button class="remove-btn" onclick="removeItem(${i})">
+                    Remove
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+    });
+
+    document.getElementById("total").innerText =
+        `Total: $${total}`;
 }
+
+// UPDATE QUANTITY
+function updateQty(index, change) {
+
+    cart[index].qty += change;
+
+    if (cart[index].qty <= 0) {
+        cart.splice(index, 1);
+    }
+
+    saveCart();
+
+    displayCart();
+}
+
+// REMOVE ITEM
+function removeItem(index) {
+
+    cart.splice(index, 1);
+
+    saveCart();
+
+    displayCart();
+}
+
+// CHECKOUT
+function goToCheckout() {
+    window.location.href = "checkout.html";
+}
+
+// PLACE ORDER
+function placeOrder() {
+
+    alert("Payment Successful!");
+
+    localStorage.removeItem("cart");
+
+    window.location.href = "index.html";
+}
+
+// LOAD CART PAGE
+displayCart();
 
 /* CHECKOUT */
 function goToCheckout() {
@@ -209,3 +342,34 @@ if (categoryFilter) {
     categoryFilter.innerHTML += `<option value="${cat}">${cat}</option>`;
   });
 }
+
+container.innerHTML += `
+<div class="product">
+
+    <span class="badge">Hot</span>
+
+    <a href="product.html?id=${p.id}">
+        <img src="${p.image}">
+    </a>
+
+    <div class="product-content">
+
+        <h3>${p.name}</h3>
+
+        <p>${p.brand}</p>
+
+        <div class="rating">
+            ⭐ ${p.rating} (${p.reviews})
+        </div>
+
+        <p class="price">$${p.price}</p>
+
+        <button onclick="addToCart(${p.id})">
+            Add to Cart
+        </button>
+
+    </div>
+
+</div>
+`;
+

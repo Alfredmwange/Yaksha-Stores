@@ -1,35 +1,70 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Checkout</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Yaksha Stores</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<header class="navbar">
-  <h2>Checkout</h2>
-  <a href="index.html">←Back to Shop</a>
-</header>
+    <!-- NAVBAR -->
 
-<div class="checkout">
+    <header class="navbar">
 
-  <h3>Payment Details</h3>
+        <h2>Yaksha Stores</h2>
 
-  <select>
-    <option>Visa</option>
-    <option>MasterCard</option>
-    <option>PayPal</option>
-  </select>
+        <a href="index.html">
+            ← Back to Shop
+        </a>
 
-  <input type="text" placeholder="Card Holder Name">
-  <input type="text" placeholder="Card Number">
-  <input type="text" placeholder="Expiry Date">
-  <input type="text" placeholder="CVV">
+        <a href="cart.html">
+            ← Back to Cart
+        </a>
 
-  <button onclick="placeOrder()">Pay Now</button>
+    </header>
 
-</div>
+    <!-- CHECKOUT SECTION -->
 
-<script src="app.js"></script>
+    <div class="checkout-wrapper">
+
+        <div class="checkout">
+
+            <h3>Secure Checkout</h3>
+
+            <select>
+                <option>Visa</option>
+                <option>MasterCard</option>
+                <option>PayPal</option>
+                <option>Equity Bank</option>
+                <option>KCB Bank</option>
+                <option>America Express</option>
+                <option>Wester Union</option>
+                <option>Co-operative Bank</option>
+            </select>
+
+            <input type="text" placeholder="Card Holder Name">
+
+            <input type="text" placeholder="Card Number">
+
+            <div class="payment-row">
+
+                <input type="text" placeholder="Expiry Date">
+
+                <input type="text" placeholder="CVV">
+
+            </div>
+
+            <button onclick="placeOrder()">
+                Pay Now
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+
 </body>
 </html>
